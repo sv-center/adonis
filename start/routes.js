@@ -20,13 +20,10 @@ Route.on('/').render('welcome')
 
 //Users routes
 
-Route.get('/users', 'UserController.index').as('users')/*список всех пользователей*/
-Route.post('/users', 'UserController.store')/*маршрут сохранения(создания) нового пользователя*/
-Route.get('/users/:id', 'UserController.edit')/*маршрут формы редактирования*/
-Route.post('/users/save/:id', 'UserController.save')/*сохранение*/
-Route.get('/users/delete/:id', 'UserController.destroy') /*удаление*/
+Route.post('/register', 'AuthController.register')
+Route.post('/login', 'AuthController.login')
 
-/*
-Route.put('/users/save/:id','UserController.save') сохранять
-Route.delete('/users/delete:id','UserController.destroy') удаление
-*/
+Route.put('/posts/:id', 'PostController.update').middleware('auth')
+Route.delete('posts/id', 'PostController.delete').middleware('auth')
+Route.post('/posts', 'PostController.store').middleware('auth')
+Route.get('/posts', 'PostController.getPosts');
