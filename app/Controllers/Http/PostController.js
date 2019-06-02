@@ -5,6 +5,7 @@
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
 const Post = use('App/Models/Post')
+
 /**
  * Resourceful controller for interacting with posts
  */
@@ -12,9 +13,9 @@ class PostController {
 
   async getPosts({request, response}) {
     let posts = await Post.query().with('user').fetch()
-
     return response.json(posts)
   }
+
   /**
    * Show a list of all posts.
    * GET posts
@@ -54,13 +55,10 @@ class PostController {
       await post.load('user');
       return response.json(post)
       // }
-
     } catch (e) {
       console.log(e)
       return response.json({message: 'You are not authorized to perform this action'})
     }
-
-
   }
 
   /**
@@ -97,13 +95,14 @@ class PostController {
    */
   async update ({ params, request, response }) {
     let post = await Post.find(params.id)
-        post.title = request.input('title')
-        post.description = request.input('description');
 
-        await post.save()
-        await post.load('user');
+    post.title = request.input('title')
+    post.description = request.input('description');
 
-        return response.json(post)
+    await post.save()
+    await post.load('user');
+
+    return response.json(post)
   }
 
   /**
